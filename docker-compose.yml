@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - wordpress-files:/var/www/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - wordpress
+
+  wordpress:
+    image: wordpress:php8.4-fpm-alpine
+    volumes:
+      - wordpress-files:/var/www/html
+    environment:
+      WORDPRESS_DB_HOST: mariadb
+      WORDPRESS_DB_USER: ${SERVICE_USER_WORDPRESS}
+      WORDPRESS_DB_PASSWORD: ${SERVICE_PASSWORD_WORDPRESS}
+      WORDPRESS_DB_NAME: wordpress
+    depends_on:
+      - mariadb
+
+  mariadb:
+    image: mariadb:11
+    volumes:
+      - mariadb-/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${SERVICE_PASSWORD_ROOT}
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: ${SERVICE_USER_WORDPRESS}
+      MYSQL_PASSWORD: ${SERVICE_PASSWORD_WORDPRESS}
+
+volumes:
+  wordpress-files:
+  mariadb-
