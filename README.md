@@ -82,6 +82,39 @@ docker-compose up --build
 - Consider using SSL/TLS for production deployments
 - Regularly update container images
 
+## Coolify Deployment
+
+This project is optimized for deployment on [Coolify](https://coolify.io/), a self-hosted alternative to Heroku.
+
+### Quick Coolify Setup
+
+1. **Use the Coolify configuration**:
+   - Use `docker-compose.coolify.yml` instead of `docker-compose.yml`
+   - Copy `coolify.env.example` to `.env` and configure your domain
+
+2. **Required Environment Variables**:
+   ```env
+   DOMAIN=yourdomain.com
+   SERVICE_USER_WORDPRESS=wordpress_user
+   SERVICE_PASSWORD_WORDPRESS=your_secure_password
+   SERVICE_PASSWORD_ROOT=your_secure_root_password
+   ```
+
+3. **Deploy on Coolify**:
+   - Connect your GitHub repository
+   - Select Docker Compose build pack
+   - Use `docker-compose.coolify.yml` as your compose file
+   - Set your environment variables
+
+For detailed deployment instructions, see [COOLIFY-DEPLOYMENT.md](COOLIFY-DEPLOYMENT.md).
+
+### Coolify Features
+
+- **Automatic SSL**: Let's Encrypt certificates via Traefik
+- **Health Checks**: Container monitoring and auto-restart
+- **Domain Management**: Easy domain configuration
+- **Zero-Downtime Deployments**: Rolling updates
+
 ## License
 
 This project is open source and available under the [MIT License](LICENSE).
